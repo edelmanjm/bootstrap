@@ -27,9 +27,11 @@ elif [[ -e "/etc/fedora-release" ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   INSTALL_COMMAND="brew install"
 
-  if ! grep -Fxq 'export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(brew --prefix openssl)/lib/pkgconfig"' ~/.bash_profile; then
-    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(brew --prefix openssl)/lib/pkgconfig"
-    echo 'export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(brew --prefix openssl)/lib/pkgconfig"' >> ~/.bash_profile
+  OPEN_SSL_ADD='export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(brew --prefix openssl)/lib/pkgconfig"'
+  if ! grep -Fxq "$OPEN_SSL_ADD" ~/.bash_profile; then
+    eval $OPEN_SSL_ADD
+    echo $OPEN_SSL_ADD >> ~/.bash_profile
+    echo "[INFO ] Added OpenSSL to the PKG_CONFIG_PATH in ~/.bash_profile"
   fi
 fi
 
